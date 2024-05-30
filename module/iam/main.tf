@@ -1,5 +1,5 @@
 #create iam ploicy
-resource "aws_iam_policy" "example_policy" {
+resource "aws_iam_policy" "example_policy1" {
   name = "eaxample_policy"
   description = "permission for ec2"
   policy = jsonencode({
@@ -15,7 +15,7 @@ resource "aws_iam_policy" "example_policy" {
 }
 
 #create iam role
-resource "aws_iam_role" "example_role" {
+resource "aws_iam_role" "example_role1" {
   name = "example_role"
   assume_role_policy = jsonencode({
   "Version": "2012-10-17",
@@ -32,20 +32,20 @@ resource "aws_iam_role" "example_role" {
 }
 
 #Attach iam policy to iam role
-resource "aws_iam_policy_attachment" "policy_attach" {
+resource "aws_iam_policy_attachment" "policy_attachtorole" {
   name = "example_policy_attachment"
   roles = [aws_iam_role.example_role.name]
   policy_arn = aws_iam_policy.example_policy.arn
 }
 
 #create instance profile using role
-resource "aws_iam_instance_profile" "example_profile" {
+resource "aws_iam_instance_profile" "example_profile1" {
   name = "example_profile"
   role = aws_iam_role.example_role.name  
 }
 
 #create EC2 instance and attache iam role
-resource "aws_instance" "example_instance" {
+resource "aws_instance" "example_instance1" {
   instance_type = var.ec2_instance_type
   ami = var.image_id
   iam_instance_profile = aws_iam_instance_profile.example_profile.name  
